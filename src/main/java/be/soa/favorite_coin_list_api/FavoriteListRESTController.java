@@ -2,12 +2,14 @@ package be.soa.favorite_coin_list_api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +88,18 @@ public class FavoriteListRESTController {
         }
     }
 
+
+    /**
+     * @return Swagger-ui for api understanding.
+     * */
+    @GetMapping("/swagger")
+    public ResponseEntity<Void> redirectToSwagger(){
+
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .location(URI.create("http://localhost:8080/swagger-ui.html"))
+                .build();
+    }
 
     /**
      * Helper methods
