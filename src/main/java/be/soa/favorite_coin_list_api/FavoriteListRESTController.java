@@ -2,12 +2,10 @@ package be.soa.favorite_coin_list_api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jdk.jfr.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,27 +28,28 @@ public class FavoriteListRESTController {
     @Autowired
     private FavoriteCoinListService favoriteCoinListService;
 
+    @GetMapping("/all-coins")
     @Operation(summary = "Returns list of all crypto coins")
     @ApiResponse(
             responseCode = "200", description = "Found list of crypto coins",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Coin.class))}
     )
-    @GetMapping("/all-coins")
     public Iterable<Coin> getAllCoins() {
         return this.favoriteCoinListService.getAllCoins();
     }
 
-    @Operation(summary = "Returns all crypto coin's where the name is like searched name")
-    @ApiResponses( value = {
-        @ApiResponse(
-                responseCode = "200", description = "Found list of crypto coins",
-                content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Coin.class))}
-        ),@ApiResponse(
-                responseCode = "400", description = "Invalid input",
-                content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Coin.class))}
-        )
-    })
+
     @GetMapping("/search-coin/{name}")
+    @Operation(summary = "Returns all crypto coin's where the name is like searched name")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Found list of crypto coins",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Coin.class))}
+            ), @ApiResponse(
+            responseCode = "400", description = "Invalid input",
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Coin.class))}
+    )
+    })
     public Iterable<Coin> searchCoinName(
             @Parameter(description = "Name of the to be searched coin", required = true)
             @PathVariable(name = "name") String name) {
@@ -61,45 +60,48 @@ public class FavoriteListRESTController {
         }
     }
 
+
+    @GetMapping("/overview")
     @Operation(summary = "Returns all favorite list(s)")
     @ApiResponse(
             responseCode = "200", description = "Found favorite list(s)",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
     )
-    @GetMapping("/overview")
     public Iterable<FavoriteCoinList> getAllFavoriteLists() {
         return this.favoriteCoinListService.getAllFavoriteLists();
     }
 
+    @GetMapping("/overview/{id}")
     @Operation(summary = "Returns one specific favorite list")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "Found favorite list(s)",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
             ),
             @ApiResponse(
-            responseCode = "400", description = "Invalid id",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
-    )
+                    responseCode = "400", description = "Invalid id",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
+            )
     })
-    @GetMapping("/overview/{id}")
     public Map<Long, List<String>> getAllFavoriteListsById(
             @Parameter(description = "Id of the favorite list", required = true)
             @PathVariable(name = "id") long id) {
         try {
             return this.favoriteCoinListService.getCoinsFromList(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "overview-id", e);
         }
     }
 
+
+    @PostMapping("/new")
     @Operation(
             summary = "Create a new Favorite list",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "ClientRequest body.",
                     content = @Content(schema = @Schema(implementation = FavoriteCoinList.class)), required = true)
     )
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "Favorite list creation successful",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
@@ -107,9 +109,7 @@ public class FavoriteListRESTController {
             @ApiResponse(
                     responseCode = "400", description = "Invalid id ???????",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
-            )
-    })
-    @PostMapping("/new")
+            )})
     public FavoriteCoinList createNewFavoriteCoinList(
             @Valid @RequestBody FavoriteCoinList favoriteCoinList) {
         try {
@@ -120,13 +120,14 @@ public class FavoriteListRESTController {
         return favoriteCoinList;
     }
 
+
+    @PostMapping("/add-coin/")
     @Operation(
             summary = "Update a coin inside Favorite list",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "JSON body = { \"coin_id\" : X ,\n" +
-                            "    \"fav_list_id\" : Y } -> NOTE: Replace X and Y with actual Id's! ", required = true)
-    )
-    @ApiResponses( value = {
+                            "    \"fav_list_id\" : Y } -> NOTE: Replace X and Y with actual Id's! ", required = true))
+    @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "update successful",
                     content = {@Content(mediaType = "application/x-www-form-urlencoded", schema = @Schema(implementation = FavoriteCoinList.class))}
@@ -134,9 +135,7 @@ public class FavoriteListRESTController {
             @ApiResponse(
                     responseCode = "400", description = "Invalid id or already exists in list",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
-            )
-    })
-    @PostMapping("/add-coin/")
+            )})
     public FavoriteCoinList updateFavoriteCoinList(
             @RequestBody Map<String, Integer> payload) {
         try {
@@ -148,13 +147,13 @@ public class FavoriteListRESTController {
     }
 
 
+    @DeleteMapping("/remove-coin")
     @Operation(
             summary = "Delete a coin from Favorite list",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "JSON body = { \"coin_id\" : X ,\n" +
-                            "    \"fav_list_id\" : Y } -> NOTE: Replace X and Y with actual Id's! ", required = true)
-    )
-    @ApiResponses( value = {
+                            "    \"fav_list_id\" : Y } -> NOTE: Replace X and Y with actual Id's! ", required = true))
+    @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "update successful",
                     content = {@Content(mediaType = "application/x-www-form-urlencoded", schema = @Schema(implementation = FavoriteCoinList.class))}
@@ -162,9 +161,7 @@ public class FavoriteListRESTController {
             @ApiResponse(
                     responseCode = "400", description = "Invalid coin or favorite list id",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
-            )
-    })
-    @DeleteMapping("/remove-coin")
+            )})
     public void deleteFavoriteCoinList(@RequestBody Map<String, Integer> payload) {
         try {
             this.favoriteCoinListService.deleteFavoriteCoinList((long) payload.get("coin_id"), (long) payload.get("fav_list_id"));
@@ -175,13 +172,12 @@ public class FavoriteListRESTController {
 
     /**
      * Swagger-ui for api understanding.
-     * <p>
      * localhost:8080/v3/api-docs.yaml
      * localhost:8080/favorite-list/swagger-ui
      */
+    @GetMapping("/swagger-ui")
     @Operation(summary = "View the Swagger UI")
     @ApiResponse(responseCode = "200", description = "Swagger found")
-    @GetMapping("/swagger-ui")
     public ResponseEntity<Void> redirectToSwagger() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
