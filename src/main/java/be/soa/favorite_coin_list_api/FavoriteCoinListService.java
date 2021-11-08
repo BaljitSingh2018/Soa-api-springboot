@@ -32,10 +32,6 @@ public class FavoriteCoinListService {
         return this.favoriteCoinListRepository.findAll();
     }
 
-    /*public FavoriteCoinList createNewFavoriteCoinList(FavoriteCoinList favoriteCoinList) throws ServiceException {
-        return this.favoriteCoinListRepository.save(favoriteCoinList);
-    } */
-
     public FavoriteCoinList createNewFavoriteCoinList(String name) throws ServiceException {
         if (isEmpty(name)){
             throw new ServiceException("Name cannot be empty!");
