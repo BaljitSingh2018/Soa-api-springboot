@@ -67,4 +67,4 @@ DELETE; /remove-coin ```{ "coin_id": X, "fav_list_id": Y }```; Delete a coin fro
 IMPORTANT: Replace the X and Y values with actual id's!
 
 
-&copy; 2021 favorite_coin_list_api - soa_herfst21_weer_crypto
+(C) 2021 favorite_coin_list_api - soa_herfst21_weer_crypto
