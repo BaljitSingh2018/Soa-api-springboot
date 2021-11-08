@@ -1,6 +1,7 @@
 ## SELF ##
 /data/
 /src/test/
+/PRIVATE_README.adoc
 
 # Generated
 HELP.md
@@ -151,4 +152,5 @@ modules.xml
 hs_err_pid*
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+iml,java
+
 
