@@ -4,10 +4,7 @@ import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -71,7 +68,12 @@ public class FavoriteCoinListService {
         this.favoriteCoinListRepository.save(favoriteCoinList);
     }
 
-    public  Map<Long, List<String>> getCoinsFromList(long id) {
+    public  Map<Long, List<String>> getCoinsFromList(long id) throws ServiceException {
+
+        if (!this.coinRepository.findById(id).isPresent()){
+            throw new ServiceException("Invalid Id");
+        }
+
         Iterable<Coin> coinsList = this.coinRepository.getCoinsByFavoriteListId(id);
         Map<Long, List<String>> res = new HashMap<>();
 
