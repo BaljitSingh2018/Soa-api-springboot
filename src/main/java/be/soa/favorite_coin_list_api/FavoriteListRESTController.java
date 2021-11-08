@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ReactiveAdapterRegistry;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -94,32 +95,26 @@ public class FavoriteListRESTController {
     }
 
 
-    @PostMapping("/new")
-    @Operation(
-            summary = "Create a new Favorite list",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "ClientRequest body.",
-                    content = @Content(schema = @Schema(implementation = FavoriteCoinList.class)), required = true)
-    )
+    @PostMapping("/new/{name}")
+    @Operation(summary = "Create a new Favorite list")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "Favorite list creation successful",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
             ),
             @ApiResponse(
-                    responseCode = "400", description = "Invalid id ???????",
+                    responseCode = "400", description = "Invalid name",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
             )})
     public FavoriteCoinList createNewFavoriteCoinList(
-            @Valid @RequestBody FavoriteCoinList favoriteCoinList) {
+            @Parameter(description = "Name of the new list", required = true)
+            @PathVariable String name){
         try {
-            this.favoriteCoinListService.createNewFavoriteCoinList(favoriteCoinList);
+            return this.favoriteCoinListService.createNewFavoriteCoinList(name);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "new", e);
         }
-        return favoriteCoinList;
     }
-
 
     @PostMapping("/add-coin/")
     @Operation(

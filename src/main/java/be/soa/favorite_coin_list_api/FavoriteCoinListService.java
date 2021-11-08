@@ -21,7 +21,7 @@ public class FavoriteCoinListService {
     }
 
     public Iterable<Coin> getCoinsLikeName(String name) throws ServiceException{
-        if (name == null || name.trim().isEmpty()){
+        if (isEmpty(name)){
             throw new ServiceException("Coin name cannot be empty!");
         }
         return this.coinRepository.findAllByNameContaining(name.toUpperCase());
@@ -32,9 +32,19 @@ public class FavoriteCoinListService {
         return this.favoriteCoinListRepository.findAll();
     }
 
-    public FavoriteCoinList createNewFavoriteCoinList(FavoriteCoinList favoriteCoinList) throws ServiceException {
+    /*public FavoriteCoinList createNewFavoriteCoinList(FavoriteCoinList favoriteCoinList) throws ServiceException {
         return this.favoriteCoinListRepository.save(favoriteCoinList);
+    } */
+
+    public FavoriteCoinList createNewFavoriteCoinList(String name) throws ServiceException {
+        if (isEmpty(name)){
+            throw new ServiceException("Name cannot be empty!");
+        }
+        FavoriteCoinList f = new FavoriteCoinList();
+        f.setName(name);
+        return this.favoriteCoinListRepository.save(f);
     }
+
 
     public FavoriteCoinList updateFavoriteCoinList(long coinId, long favListId) throws ServiceException {
 
@@ -89,6 +99,8 @@ public class FavoriteCoinListService {
         }
         return res;
     }
+
+    private boolean isEmpty(String s){ return s == null || s.trim().isEmpty();}
 }
 
 
