@@ -65,15 +65,15 @@ GET; /swagger-ui; View the Swagger UI; Swagger found; /; /
 
 GET; coin/overview; Returns list of all crypto coins; Found list of crypto coins; / ; /
 GET; coin/search/{name}; Returns all crypto coin's where the name is like searched name; Found list of crypto coins; Invalid input ; /
-POST; coin/new ; Creates a new coin; Creation successful; Invalid coin name ; `` { "name": "BITCOIN", "alias_currency": "BTC_EUR" } ``
+POST; coin/new ; Creates a new coin; Creation successful; Invalid coin name ; ```{ "name": "BITCOIN", "alias_currency": "BTC_EUR" } ```
 
 GET; /overview; Returns of all favorite list(s); Found id and name of favorite list(s); /; /
 GET; /overview/{id}; Returns all coins inside a specific favorite list; All coins inside of favorite list(s) (if any were added); Invalid id; /
 
 POST; /new/{name}; Create a new Favorite list; Favorite list creation successful;  Invalid name; /
-POST; /add-coin ; Update a coin inside Favorite list; Update successful;  Invalid id or coin already exists in list; ``{ "coin_id": X, "fav_list_id": Y }``
+POST; /add-coin ; Update a coin inside Favorite list; Update successful;  Invalid id or coin already exists in list; ```{ "coin_id": X, "fav_list_id": Y }```
 
-DELETE; /remove-coin ; Delete a coin from Favorite list; Remove successful;  Invalid coin id or coin not in list or invalid favorite list id; ``{ "coin_id": X, "fav_list_id": Y }``
+DELETE; /remove-coin ; Delete a coin from Favorite list; Remove successful;  Invalid coin id or coin not in list or invalid favorite list id; ```{ "coin_id": X, "fav_list_id": Y }```
 |===
 
 IMPORTANT: Replace the X and Y values with actual values!
