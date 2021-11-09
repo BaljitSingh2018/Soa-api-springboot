@@ -59,7 +59,7 @@ GET; /overview; Returns of all favorite list(s); Found id and name of favorite l
 GET; /overview/{id}; Returns all coins inside a specific favorite list; All coins inside of favorite list(s) (if any were added); Invalid id
 
 POST; /new/{name}; Create a new Favorite list; Favorite list creation successful;  Invalid name
-POST; /add-coin/ ```{ "coin_id": X, "fav_list_id": Y }``` ; Update a coin inside Favorite list; Update successful;  Invalid id or coin already exists in list
+POST; /add-coin/  ```{ "coin_id": X, "fav_list_id": Y }``` ; Update a coin inside Favorite list; Update successful;  Invalid id or coin already exists in list
 
 DELETE; /remove-coin ```{ "coin_id": X, "fav_list_id": Y }```; Delete a coin from Favorite list; Remove successful;  Invalid coin id or coin not in list or invalid favorite list id
 |===

@@ -58,4 +58,9 @@ public class Coin {
     }
 
     public Coin() { }
+
+    public Coin(String name, String alias_currency) {
+        this.name = name;
+        this.alias_currency = alias_currency;
+    }
 }

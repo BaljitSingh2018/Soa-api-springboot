@@ -13,4 +13,5 @@ public interface CoinRepository extends JpaRepository<Coin, Long> {
 
     @Query(value="SELECT * FROM FAV_LIST_COIN fc LEFT OUTER JOIN Coin c on c.id = fc.coin_id AND fc.fav_list_id = :searchId", nativeQuery=true)
     Iterable<Coin> getCoinsByFavoriteListId(long searchId);
+
 }

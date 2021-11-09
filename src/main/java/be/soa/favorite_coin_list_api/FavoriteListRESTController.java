@@ -28,7 +28,9 @@ public class FavoriteListRESTController {
     @Autowired
     private FavoriteCoinListService favoriteCoinListService;
 
-    @GetMapping("/all-coins")
+    /**COIN*/
+
+    @GetMapping("coin/all-coins")
     @Operation(summary = "Returns list of all crypto coins")
     @ApiResponse(
             responseCode = "200", description = "Found list of crypto coins",
@@ -38,8 +40,7 @@ public class FavoriteListRESTController {
         return this.favoriteCoinListService.getAllCoins();
     }
 
-
-    @GetMapping("/search-coin/{name}")
+    @GetMapping("coin/search/{name}")
     @Operation(summary = "Returns all crypto coin's where the name is like searched name")
     @ApiResponses(value = {
             @ApiResponse(
@@ -56,9 +57,36 @@ public class FavoriteListRESTController {
         try {
             return this.favoriteCoinListService.getCoinsLikeName(name);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "search-coin", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "coin/search", e);
         }
     }
+
+    @PostMapping("coin/new")
+    @Operation(summary = "Creates a new coin",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "JSON body = { \"name\": X,\n" +
+                            "    \"alias_currency\": Y } -> NOTE: Replace X and Y with actual name and alias_currency! " +
+                            "EX: name: BITCOIN, alias_currency: BTC_EUR", required = true)
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Creation successful",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Coin.class))}
+            ), @ApiResponse(
+            responseCode = "400", description = "Invalid coin name",
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Coin.class))}
+    )
+    })
+    public Coin createNewCoin(@RequestBody Map<String, String> payload) {
+        try {
+            return this.favoriteCoinListService.createNewCoin(payload.get("name"), payload.get("alias_currency"));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "coin/all-coins", e);
+        }
+    }
+
+
+    /**FavoriteCoinList*/
 
     @GetMapping("/overview")
     @Operation(summary = "Returns of all favorite list(s)")
@@ -92,7 +120,6 @@ public class FavoriteListRESTController {
         }
     }
 
-
     @PostMapping("/new/{name}")
     @Operation(summary = "Create a new Favorite list")
     @ApiResponses(value = {
@@ -114,7 +141,7 @@ public class FavoriteListRESTController {
         }
     }
 
-    @PostMapping("/add-coin/")
+    @PostMapping("/add-coin")
     @Operation(
             summary = "Update a coin inside Favorite list",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(

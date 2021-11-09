@@ -15,7 +15,9 @@ public class FavoriteCoinListService {
     @Autowired
     private FavoriteCoinListRepository favoriteCoinListRepository;
 
+
     /***Coins*/
+
     public Iterable<Coin> getAllCoins() {
         return this.coinRepository.findAll();
     }
@@ -25,6 +27,14 @@ public class FavoriteCoinListService {
             throw new ServiceException("Coin name cannot be empty!");
         }
         return this.coinRepository.findAllByNameContaining(name.toUpperCase());
+    }
+
+    public Coin createNewCoin(String name, String alias_currency) throws ServiceException{
+        Coin byName = this.coinRepository.findAllByName(name);
+        if (byName != null){
+            throw new ServiceException("Coin already exists");
+        }
+        return this.coinRepository.save(new Coin(name, alias_currency));
     }
 
     /***Favorite List*/
