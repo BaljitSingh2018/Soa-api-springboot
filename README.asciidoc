@@ -3,9 +3,9 @@
 :icons: font
 :source-highlighter: hightlightjs
 
-= favorite_coin_list_api
+= Favorite Coin List Api
 
-Baljit Singh VERSION 1.0, {docdate}: soa_herfst21_weer_crypto
+Baljit Singh VERSION 1.2, {docdate}: soa_herfst21_weer_crypto
 
 == Installation
 
@@ -17,16 +17,18 @@ link:https://hub.docker.com/r/batace/favorite_coin_list_api[Dockerhub^]
 
 [source, bash]
 ----
-docker pull batace/favorite_coin_list_api <1>
+<1>
+docker pull batace/favorite_coin_list_api:latest
 
-docker run -it -p 8080:8080 docker-favorite-coin-list-api <2>
+<2>
+docker run -it -p --name fav-list-api 8080:8080 batace/favorite_coin_list_api
 ----
 <1> Pull the docker image
 <2> Run it locally
 
-NOTE: *docker-favorite-coin-list-api* can be any name you like your container to be.
+Navigate to  link:localhost:8080/favorite-list/swagger-ui[^]
 
-=== Zip
+=== Source Code
 
 . Unzip the project
 . Open project in your IDE
@@ -36,35 +38,45 @@ NOTE: *docker-favorite-coin-list-api* can be any name you like your container to
 === Swagger-UI
 
 . Run the application
-. Navigate to link:localhost:8080/favorite-list/swagger-ui[]
+. Navigate to link:localhost:8080/favorite-list/swagger-ui[^]
 
 This should provide sufficient information.
 For more information refer to <<API Documentation>>.
 
-=== API Documentation
+== API Documentation
 
-Base URL Api = favorite-list/
+=== BASE URL
 
-Example:
-link:localhost:8080/favorite-list/all-coins[]
+link:favorite-list/[]
+
+Examples
+
+link:localhost:8080/favorite-list/coin/overview[^]
+
+link:localhost:8080/favorite-list/overview[^]
+
+=== URL'S
 
 [format=dsv,separator=;]
 |===
-*Request*; *Path*; *Description*; *Description Response 200*; *Description Response 400*
+*Request*; *Path*; *Description*; *Description Response 200*; *Description Response 400*; *BODY*
 
-GET; /swagger-ui; View the Swagger UI; Swagger found; /
-GET; /all-coins; Returns list of all crypto coins; Found list of crypto coins; /
-GET; /search-coin/{name}; Returns all crypto coin's where the name is like searched name; Found list of crypto coins; Invalid input
-GET; /overview; Returns of all favorite list(s); Found id and name of favorite list(s); /
-GET; /overview/{id}; Returns all coins inside a specific favorite list; All coins inside of favorite list(s) (if any were added); Invalid id
+GET; /swagger-ui; View the Swagger UI; Swagger found; /; /
 
-POST; /new/{name}; Create a new Favorite list; Favorite list creation successful;  Invalid name
-POST; /add-coin/  ```{ "coin_id": X, "fav_list_id": Y }``` ; Update a coin inside Favorite list; Update successful;  Invalid id or coin already exists in list
+GET; coin/overview; Returns list of all crypto coins; Found list of crypto coins; / ; /
+GET; coin/search/{name}; Returns all crypto coin's where the name is like searched name; Found list of crypto coins; Invalid input ; /
+POST; coin/new ; Creates a new coin; Creation successful; Invalid coin name ; `` { "name": "BITCOIN", "alias_currency": "BTC_EUR" } ``
 
-DELETE; /remove-coin ```{ "coin_id": X, "fav_list_id": Y }```; Delete a coin from Favorite list; Remove successful;  Invalid coin id or coin not in list or invalid favorite list id
+GET; /overview; Returns of all favorite list(s); Found id and name of favorite list(s); /; /
+GET; /overview/{id}; Returns all coins inside a specific favorite list; All coins inside of favorite list(s) (if any were added); Invalid id; /
+
+POST; /new/{name}; Create a new Favorite list; Favorite list creation successful;  Invalid name; /
+POST; /add-coin ; Update a coin inside Favorite list; Update successful;  Invalid id or coin already exists in list; ``{ "coin_id": X, "fav_list_id": Y }``
+
+DELETE; /remove-coin ; Delete a coin from Favorite list; Remove successful;  Invalid coin id or coin not in list or invalid favorite list id; ``{ "coin_id": X, "fav_list_id": Y }``
 |===
 
-IMPORTANT: Replace the X and Y values with actual id's!
+IMPORTANT: Replace the X and Y values with actual values!
 
 
 (C) 2021 favorite_coin_list_api - soa_herfst21_weer_crypto
