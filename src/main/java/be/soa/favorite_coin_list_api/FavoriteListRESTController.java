@@ -20,7 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * http://localhost:8080/favorite-list/swagger-ui
+ */
 @RestController
 @RequestMapping("favorite-list/")
 public class FavoriteListRESTController {
@@ -30,7 +32,7 @@ public class FavoriteListRESTController {
 
     /**COIN*/
 
-    @GetMapping("coin/all-coins")
+    @GetMapping("coin/overview")
     @Operation(summary = "Returns list of all crypto coins")
     @ApiResponse(
             responseCode = "200", description = "Found list of crypto coins",
@@ -41,7 +43,7 @@ public class FavoriteListRESTController {
     }
 
     @GetMapping("coin/search/{name}")
-    @Operation(summary = "Returns all crypto coin's where the name is like searched name")
+    @Operation(summary = "Returns all crypto coins where the name is like searched name")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "Found list of crypto coins",
