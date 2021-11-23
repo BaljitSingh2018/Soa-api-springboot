@@ -1,6 +1,8 @@
 :toc: left
 :sectnums:
 :icons: font
+// :source-highlighter: rouge
+// :rouge-style: thankful_eyes
 :source-highlighter: hightlightjs
 
 = Favorite Coin List Api
@@ -74,6 +76,8 @@ POST; /new/{name}; Create a new Favorite list; Favorite list creation successful
 POST; /add-coin ; Update a coin inside Favorite list; Update successful;  Invalid id or coin already exists in list; ```{ "coin_id": X, "fav_list_id": Y }```
 
 DELETE; /remove-coin ; Delete a coin from Favorite list; Remove successful;  Invalid coin id or coin not in list or invalid favorite list id; ```{ "coin_id": X, "fav_list_id": Y }```
+
+DELETE; /remove-coin/{coinId}/{listId} ; Delete a coin from Favorite list; Remove successful;  Invalid coin id or coin not in list or invalid favorite list id; /
 |===
 
 IMPORTANT: Replace the X and Y values with actual values!

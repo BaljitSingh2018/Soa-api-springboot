@@ -192,6 +192,26 @@ public class FavoriteListRESTController {
         }
     }
 
+    @DeleteMapping("/remove-coin/{coinId}/{listId}")
+    @Operation(summary = "Delete a coin from Favorite list using url ")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Remove successful",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Invalid coin id or coin not in list or invalid favorite list id",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FavoriteCoinList.class))}
+            )})
+    public void deleteFavoriteCoinList(@PathVariable long coinId, @PathVariable long listId) {
+        try {
+            this.favoriteCoinListService.deleteFavoriteCoinList(coinId, listId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "remove-coin", e);
+        }
+    }
+
+
     /**
      * Swagger-ui for api understanding.
      * localhost:8080/v3/api-docs.yaml
